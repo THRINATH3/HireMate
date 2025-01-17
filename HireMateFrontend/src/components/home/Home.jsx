@@ -12,7 +12,7 @@ import freelauncerslist from '../gallery/freelauncerslist.png'
 import accptedCard from '../gallery/joblist.png';
 import chatbox from '../gallery/chatbox.png';
 import fprespro from '../gallery/fprespro.png';
-import requestedCard from '../gallery/acceptedList.png';
+import requestedCard from '../gallery/acceptedlist.png';
 import freelauncerprofile from '../gallery/freelauncerprofile.png';
 
 function Home() {
