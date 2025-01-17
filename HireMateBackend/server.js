@@ -4,7 +4,7 @@ const hireApp=express();
 const cors=require('cors');
 
 hireApp.use(cors({
-    origin:'http://localhost:5173'
+    origin:'https://hire-mate.vercel.app'
 }))
 
 hireApp.use(express.json());
