@@ -181,13 +181,14 @@ function Profile() {
       const result = await res.json();
       if (result.message === 'Response successfully deleted') {
         const updatedResponses = [...curruser.responses].filter(
-          (response) =>{ response.username !== freelancerUsername  && response.state !== 0}
-        );
+          (response) => response.username !== freelancerUsername && response.state !== 0
+      );      
         setCurruser({ ...curruser, responses: updatedResponses });
         alert('Response deleted successfully');
       } else {
         alert(result.message);
       }
+
     } catch (error) {
       console.error('Error deleting response:', error);
     }
@@ -323,7 +324,8 @@ function Profile() {
             </div>
             <div className="mb-3">
               <strong className='text-warning fs-3'>Skills: </strong>
-              <span className='fs-5'>{curruser.skills.join(', ') || 'No skills available'}</span>{' '}
+              {console.log("skills: "+curruser.skills)}
+              <span className='fs-5'>{curruser.skills?.join(', ') || 'No skills available'}</span>{' '}
             </div>
           </>
         ) : null}
