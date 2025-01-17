@@ -323,7 +323,7 @@ function Profile() {
             </div>
             <div className="mb-3">
               <strong className='text-warning fs-3'>Skills: </strong>
-              <span className='fs-5'>{curruser.skills.join(', ') || 'No skills available'}</span>{' '}
+              <span className='fs-5'>{curruser.skills?.join(', ') || 'No skills available'}</span>{' '}
             </div>
           </>
         ) : null}
