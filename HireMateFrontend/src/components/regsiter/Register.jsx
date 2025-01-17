@@ -72,16 +72,6 @@ async function onSubmit(data) {
       return;
     }
 
-    const walletResponse = await fetch('https://hire-mate-6mvz.vercel.app/user-api/createWalletAndRating', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!walletResponse.ok) {
-      throw new Error('Failed to create wallet and rating');
-    }
 
     console.log('Hirer Form Data:', dataToBePushed);
     setErr('');
