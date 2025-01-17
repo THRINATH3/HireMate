@@ -1,0 +1,97 @@
+post http://localhost:8000/user-api/user-1
+Content-Type: application/json
+
+{
+    "username":"Thrinath",
+    "password":"Eww",
+    "proficiency":"Logo Designer",
+    "description":"",
+    "pendingRequests":[],
+    "acceptedRequests":[]
+}
+
+###
+
+post http://localhost:8000/user-api/user-2
+Content-Type: application/json
+
+{
+    "username":"Siddu",
+    "password":"Eww",
+    "responses":[]
+}
+
+###
+get http://localhost:8000/user-api/users
+
+###
+post  http://localhost:8000/user-api/login-1
+Content-Type: application/json
+
+{
+    "username":"Thrinath",
+    "password":"Eww"
+}
+
+###
+post  http://localhost:8000/user-api/login-2
+Content-Type: application/json
+
+{
+    "username":"Siddu",
+    "password":"Eww"
+}
+
+###
+post http://localhost:8000/user-api/edit
+Content-Type: application/json
+
+{
+    "username":"sadwika123",
+    "description":"pke"
+}
+
+###
+delete http://localhost:8000/user-api/friendAccepted/sadwika123/thrinath123
+
+
+###
+delete http://localhost:8000/user-api/friendRequested/sadwika123/thrinath123
+
+###
+post http://localhost:8000/user-api/messagePost
+Content-Type: application/json
+
+{
+    "participants": ["ramana123", "surya123"],
+     "messages": [
+        {
+          "message": "Hi sir",
+          "timestamp": "2025-01-13T12:00:00Z",
+          "whoseMessage": "surya123"
+        }
+      ]
+}
+
+###
+get http://localhost:8000/user-api/getmessage/ramana123/surya123
+
+###
+post http://localhost:8000/user-api/jobdonelist
+Content-Type: application/json
+
+{
+    "payload":["123","352"]
+}
+
+###
+get http://localhost:8000/user-api/getjobList
+
+###
+post http://localhost:8000/user-api/createWalletAndRating
+
+###
+get http://localhost:8000/user-api/getAllRatings
+
+###
+put http://localhost:8000/user-api/addFieldsToUsers
