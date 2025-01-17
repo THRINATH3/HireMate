@@ -181,7 +181,7 @@ function Profile() {
       const result = await res.json();
       if (result.message === 'Response successfully deleted') {
         const updatedResponses = [...curruser.responses].filter(
-          (response) =>{ response.username !== freelancerUsername  && response.state !== 0}
+         (response) => response.username !== freelancerUsername && response.state !== 0
         );
         setCurruser({ ...curruser, responses: updatedResponses });
         alert('Response deleted successfully');
