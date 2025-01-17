@@ -9,21 +9,39 @@ const jwt = require('jsonwebtoken');
 
 //freelauncers registration
 hireMateUserapp.post('/user-1', async (req, res) => {
-    const usersCollection = req.app.get('usersCollection');
-    try {
-        const currUser = req.body;
-        const ifExists = await usersCollection.findOne({ username: currUser.username });
-        if (ifExists !== null) {
-            return res.status(409).send({ message: "User already exists" });
-        }
-        const hashedPassword = await bcryptjs.hash(currUser.password, 7);
-        currUser.password = hashedPassword;
-        await usersCollection.insertOne(currUser);
-        res.status(201).send({ message: "User created successfully" });
-    } catch (err) {
-        console.error('Error creating user:', err);
-        res.status(500).send({ message: 'Error creating user' });
-    }
+  const usersCollection = req.app.get('usersCollection');
+  const walletAndRatingCollection = req.app.get('walletAndRatingCollection');
+
+  try {
+      const currUser = req.body;
+      const ifExists = await usersCollection.findOne({ username: currUser.username });
+      if (ifExists !== null) {
+          return res.status(409).send({ message: "User already exists" });
+      }
+
+      const hashedPassword = await bcryptjs.hash(currUser.password, 7);
+      currUser.password = hashedPassword;
+
+      await usersCollection.insertOne(currUser);
+
+      const walletAndRatingData = {
+          username: currUser.username,
+          wallet: 0,
+          rating: currUser.role === 'Hirer' ? undefined : {
+              totalRatings: 0,
+              totalScore: 0,
+              averageRating: 0,
+              ratedBy: [],
+          },
+      };
+      await walletAndRatingCollection.insertOne(walletAndRatingData);
+
+
+      res.status(201).send({ message: "User created successfully" });
+  } catch (err) {
+      console.error('Error creating user:', err);
+      res.status(500).send({ message: 'Error creating user' });
+  }
 });
 
 //hirers registration

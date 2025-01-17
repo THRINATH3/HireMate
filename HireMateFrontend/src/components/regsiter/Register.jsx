@@ -42,42 +42,57 @@ function HirerForm() {
     reset,
   } = useForm();
   const [err, setErr] = useState('');
+
   let navigate=useNavigate();
-  async function onSubmit(data) {
-    let dataToBePushed={
-      ...data,
-      role:"Hirer",
+
+async function onSubmit(data) {
+  const dataToBePushed = {
+    ...data,
+    role: 'Hirer',
+  };
+
+  try {
+    const response = await fetch('https://hire-mate-6mvz.vercel.app/user-api/user-2', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToBePushed),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to register user');
     }
-    try {
-      const response = await fetch('https://hire-mate-6mvz.vercel.app/user-api/user-2', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToBePushed),
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Server error occurred');
-      }
-  
-      const result = await response.json();
-  
-      if (result.message === 'User created successfully') {
-        console.log('Hirer Form Data:', dataToBePushed);
-        setErr(''); 
-        reset();
-        navigate('/');
-      } else {
-        setErr(result.message || 'An unexpected error occurred');
-      }
-    } catch (error) {
-      console.error('Error during registration:', error);
-      setErr(error.message || 'An error occurred. Please try again.');
+
+    const result = await response.json();
+
+    if (result.message !== 'User created successfully') {
+      setErr(result.message || 'Unexpected error occurred during registration');
+      return;
     }
+
+    const walletResponse = await fetch('https://hire-mate-6mvz.vercel.app/user-api/createWalletAndRating', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!walletResponse.ok) {
+      throw new Error('Failed to create wallet and rating');
+    }
+
+    console.log('Hirer Form Data:', dataToBePushed);
+    setErr('');
+    reset();
+    navigate('/');
+  } catch (error) {
+    console.error('Error during registration:', error.message);
+    setErr(error.message || 'An error occurred. Please try again.');
   }
-  
+}
+
 
   return (
     <form className="p-3" onSubmit={handleSubmit(onSubmit)}>
