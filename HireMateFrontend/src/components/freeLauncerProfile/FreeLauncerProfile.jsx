@@ -16,7 +16,7 @@ function FreeLancerProfile() {
   useEffect(() => {
     async function getTheRatings() {
       try {
-        const res = await fetch("https://hire-mate-6mvz.vercel.app/user-api/getAllRatings");
+        const res = await fetch("http://localhost:8000/user-api/getAllRatings");
         const result = await res.json();
         if (result.message === "Ratings List fetched") {
           setRatingList(result.payload);
@@ -31,7 +31,7 @@ function FreeLancerProfile() {
   useEffect(() => {
     async function getJobDoneList() {
       try {
-        const res = await fetch("https://hire-mate-6mvz.vercel.app/user-api/getjobList");
+        const res = await fetch("http://localhost:8000/user-api/getjobList");
         const result = await res.json();
         if (result.message === "Job List fetched successfully") {
           setJobDoneList(result.list);

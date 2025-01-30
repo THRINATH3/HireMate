@@ -11,8 +11,8 @@ function UserLoginStore({ children }) {
     try {
         const endpoint =
         role === 'freelancer'
-          ? 'https://hire-mate-6mvz.vercel.app/user-api/login-1'
-          : 'https://hire-mate-6mvz.vercel.app/user-api/login-2'; 
+          ? 'http://localhost:8000/user-api/login-1'
+          : 'http://localhost:8000/user-api/login-2'; 
         const res = await fetch(
         endpoint,
         {

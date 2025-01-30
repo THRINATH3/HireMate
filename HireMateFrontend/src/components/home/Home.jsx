@@ -41,7 +41,7 @@ function Home() {
   async function friendReq(freelancerUsername, hirerUsername) {
     try {
       const res = await fetch(
-        `https://hire-mate-6mvz.vercel.app/user-api/friendRequested/${freelancerUsername}/${hirerUsername}`,
+        `http://localhost:8000/user-api/friendRequested/${freelancerUsername}/${hirerUsername}`,
         {
           method: "DELETE",
         }
@@ -77,7 +77,7 @@ function Home() {
 
   async function getAllFreelancers() {
     try {
-      const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/users');
+      const res = await fetch('http://localhost:8000/user-api/users');
       const data = await res.json();
       setFreelancer(data.payload);
     } catch (error) {
@@ -89,7 +89,7 @@ function Home() {
   useEffect(()=>{
     async function getTheRatings() {
       try {
-        const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/getAllRatings');
+        const res = await fetch('http://localhost:8000/user-api/getAllRatings');
         const result = await res.json();
         if(result.message === 'Ratings List fetched'){
             SetRatingList(result.payload);
@@ -115,7 +115,7 @@ function Home() {
   useEffect(() => {
       async function getJobDoneList() {
         try {
-          const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/getjobList');
+          const res = await fetch('http://localhost:8000/user-api/getjobList');
           const result = await res.json();
           if (result.message === 'Job List fetched successfully') {
             setJobDoneList(result.list);
