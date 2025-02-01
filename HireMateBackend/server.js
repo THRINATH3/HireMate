@@ -33,6 +33,8 @@ mClient.connect().then((connectObj)=>{
 
 const userapp = require('./APIs/userApi');
 hireApp.use('/user-api', userapp);
+const uploadRoute = require('./APIs/upload');
+hireApp.use('/image-api',uploadRoute);
 
 hireApp.use('*',(req,res,next)=>{
     console.log(req.path)

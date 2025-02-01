@@ -7,10 +7,13 @@ import { GiCrossMark } from 'react-icons/gi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { HiMiniHandThumbUp } from "react-icons/hi2";
 import { HiMiniHandThumbDown } from "react-icons/hi2";
+import Axios from 'axios';
+import { ImCloudUpload } from "react-icons/im";
 import './Profile.css';
+import { RiDeleteBin6Fill } from "react-icons/ri";
 
 function Profile() {
-  const { curruser, setCurruser } = useContext(usercontext);
+  const { curruser, setCurruser,loginStatus } = useContext(usercontext);
   const [showModal, setShowModal] = useState(false);
   const [description1, setDescription] = useState(curruser.description || '');
   const { handleSubmit, register,reset } = useForm();
@@ -19,13 +22,104 @@ function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   let [messageDisplay,setMessageDisplay]=useState([]);
   let [jobDoneList,setJobDoneList]=useState([]);
-
+  let [cloudinaryImages,setCloudinaryImages]=useState([]);
   const [selectedRating, setSelectedRating] = useState(0); 
   const [is,setIs]=useState(false);
+  const [progfileImage,setProfileImage]=useState('');
+  const [profileImageModal,setProfileImageModal]=useState(false);
   function togglerateModal(data){
       setReciever(data)
       setIs(!is);
       setSelectedRating(0);
+  }
+
+  function showImage(url){
+    setProfileImage(url);
+    setProfileImageModal(true);
+  }
+
+  async function deleteImage(publicId) {
+    try {
+      const response = await fetch(
+        `https://hire-mate-6mvz.vercel.app/image-api/delete-image/${encodeURIComponent(publicId)}`,
+        { method: 'DELETE' }
+      );
+  
+      console.log("Public ID:", publicId); // Debug log
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        getImage(); // Refresh the image list
+      } else {
+        console.error("Failed to delete image:", result);
+        alert("Failed to delete the image. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during image deletion:", error);
+      alert("An error occurred while trying to delete the image.");
+    }
+  }
+
+  async function getImage() {
+    try {
+      const response = await fetch('https://hire-mate-6mvz.vercel.app/image-api/get-images');
+      const result = await response.json();
+  
+      if (result.data) {
+        // Map the data to extract necessary details
+        const formattedImages = result.data.map((image) => {
+          let username = 'Anonymous'; // Default value
+          if (image.context?.user_info) {
+            try {
+              // Parse the stringified JSON object
+              const userInfo = JSON.parse(image.context.user_info);
+              username = userInfo.username || 'Anonymous'; // Fallback to 'Anonymous' if username is missing
+            } catch (error) {
+              console.error('Failed to parse user_info:', error);
+            }
+          }
+  
+          return {
+            url: image.url, // Image URL
+            user: username, // Extracted username
+            public_id:image.public_id
+          };
+        });
+  
+        console.log(formattedImages); // Debug: Verify the formatted data
+        setCloudinaryImages(formattedImages); // Update state with formatted data
+      }
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  }
+
+  useEffect(()=>{
+    if(loginStatus)
+    getImage();
+  },[loginStatus])
+
+  function onInputChange(files) {
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    formData.append('upload_preset', 'em3a0pap');
+    formData.append('folder', 'profiles_hiremate');
+  
+    // Directly construct the userInfo object
+    const userInfo = { username: curruser.username };
+    formData.append('context', `user_info=${JSON.stringify(userInfo)}`);
+  
+    Axios.post('https://api.cloudinary.com/v1_1/dtgqfjyrr/image/upload', formData)
+      .then((response) => {
+        console.log('Upload Successful:', response.data);
+        alert('Your profile was uploaded successfully.');
+        getImage();
+      })
+      .catch((error) => {
+        console.error('Upload Failed:', error);
+        alert('Failed to upload your profile. Please try again.');
+      });
   }
 
   const onSubmit = async (data) => {
@@ -38,7 +132,7 @@ function Profile() {
       };
       console.log(reciever.username)
   
-      const response = await fetch('http://localhost:8000/user-api/updateRating', {
+      const response = await fetch('https://hire-mate-6mvz.vercel.app/user-api/updateRating', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +177,7 @@ function Profile() {
     let confirmationJob = confirm("Is the job done?");
     if (confirmationJob) {
       try {
-        let res = await fetch('http://localhost:8000/user-api/jobdonelist', {
+        let res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/jobdonelist', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json'
@@ -108,7 +202,7 @@ function Profile() {
   useEffect(() => {
     async function getJobDoneList() {
       try {
-        const res = await fetch('http://localhost:8000/user-api/getjobList');
+        const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/getjobList');
         const result = await res.json();
         if (result.message === 'Job List fetched successfully') {
           setJobDoneList(result.list);
@@ -135,7 +229,7 @@ function Profile() {
     };
     
     try {
-      const res = await fetch('http://localhost:8000/user-api/messagePost',{
+      const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/messagePost',{
         method:"POST",
         headers:{'Content-Type' : 'application/json'},
         body:JSON.stringify(messageObject)
@@ -158,7 +252,7 @@ function Profile() {
     async function fetchMessages() {
       try {
         const res = await fetch(
-          `http://localhost:8000/user-api/getmessage/${curruser.username}/${reciever.username}`
+          `https://hire-mate-6mvz.vercel.app/user-api/getmessage/${curruser.username}/${reciever.username}`
         );
         const result = await res.json();
         if (result.message === 'Messages are fetched' || result.message === 'No conversation found between the specified users.') {
@@ -175,7 +269,7 @@ function Profile() {
   async function deleteResponse(hirerUsername, freelancerUsername) {
     try {
       const res = await fetch(
-        `http://localhost:8000/user-api/deleteResponse/${hirerUsername}/${freelancerUsername}`,
+        `https://hire-mate-6mvz.vercel.app/user-api/deleteResponse/${hirerUsername}/${freelancerUsername}`,
         { method: 'DELETE' }
       );
       const result = await res.json();
@@ -197,7 +291,7 @@ function Profile() {
   async function friendAccepted(data, hirer, freelancer) {
     try {
       const res = await fetch(
-        `http://localhost:8000/user-api/friendAccepted/${freelancer}/${hirer}/${data}`,
+        `https://hire-mate-6mvz.vercel.app/user-api/friendAccepted/${freelancer}/${hirer}/${data}`,
         { method: 'DELETE' }
       );
       const result = await res.json();
@@ -246,7 +340,7 @@ function Profile() {
     setCurruser(updatedUser);
     localStorage.setItem('currentUser', JSON.stringify(updatedUser));
     try {
-      const res = await fetch('http://localhost:8000/user-api/edit', {
+      const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -278,13 +372,47 @@ function Profile() {
         style={{ border: '1px solid #ccc', borderRadius: '10px', padding: '20px' }}
       >
         <div className="d-flex justify-content-center mb-4">
-          <img
-            src={`https://ui-avatars.com/api/?name=${curruser.username}&background=random`}
-            alt="User Avatar"
-            className="rounded-circle"
-            style={{ width: '120px', height: '120px', objectFit: 'cover' }}
-          />
+             {cloudinaryImages.find((ele) => ele.user === curruser.username) ? (
+              <>
+              <img
+               onClick={()=>showImage(cloudinaryImages.find((ele) => ele.user === curruser.username)?.url)}
+               src={cloudinaryImages.find((ele) => ele.user === curruser.username)?.url}
+               alt="User Avatar"
+               className="rounded-circle"
+               style={{ width: '120px', height: '120px', objectFit: 'cover' ,cursor:'pointer'}}
+              />
+              <RiDeleteBin6Fill
+                        onClick={() => deleteImage(cloudinaryImages.find((ele) => ele.user === curruser.username)?.public_id)}
+                        style={{ cursor: 'pointer', borderRadius: '50%', padding: '4px',marginLeft:'-40px' ,fontSize:'35px'}}
+                        className="text-info bg-white mb-3"
+               />
+            </>
+          ) : (
+        <>
+        <img
+        src={`https://ui-avatars.com/api/?name=${curruser.username}&background=random`}
+        alt="User Avatar"
+        className="rounded-circle"
+        style={{ width: '120px', height: '120px', objectFit: 'cover' }}
+        />
+        <label 
+        htmlFor="fileupload" 
+        className="a" 
+        style={{ cursor: 'pointer' }}
+        >
+        <ImCloudUpload style={{ fontSize: '50px', marginLeft: '-40px' }} className="text-light" />
+        </label>
+        <input 
+        id="fileupload"
+        accept="image/*"
+        type="file"
+        onChange={(event) => onInputChange(event.target.files)}
+        style={{ display: 'none' }} 
+        />
+        </>
+        )}
         </div>
+
         {curruser.role === 'Freelauncer' ? (
           <FaEdit
           className='mb-3'
@@ -731,6 +859,35 @@ function Profile() {
               </button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
+{profileImageModal && (
+  <div
+    className="modal fade show"
+    tabIndex="-1"
+    style={{ display: 'block'}}
+    aria-modal="true"
+    role="dialog"
+    
+  >
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          {/* <h5 className="modal-title text-black">Profile</h5> */}
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setProfileImageModal(false)}
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="modal-body text-center">
+          <img src={progfileImage} alt="" style={{width:'400px',height:'500px',borderRadius:'100%'}}/>
         </div>
       </div>
     </div>
