@@ -52,7 +52,7 @@ async function onSubmit(data) {
   };
 
   try {
-    const response = await fetch('https://hire-mate-6mvz.vercel.app/user-api/user-2', {
+    const response = await fetch('https://hire-mate-mcte.vercel.app/user-api/user-2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ function FreelancerForm() {
       description:""
     }
     try {
-      const response = await fetch('https://hire-mate-6mvz.vercel.app/user-api/user-1', {
+      const response = await fetch('https://hire-mate-mcte.vercel.app/user-api/user-1', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

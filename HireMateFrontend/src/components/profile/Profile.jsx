@@ -41,7 +41,7 @@ function Profile() {
   async function deleteImage(publicId) {
     try {
       const response = await fetch(
-        `https://hire-mate-6mvz.vercel.app/image-api/delete-image/${encodeURIComponent(publicId)}`,
+        `https://hire-mate-mcte.vercel.app/image-api/delete-image/${encodeURIComponent(publicId)}`,
         { method: 'DELETE' }
       );
   
@@ -63,7 +63,7 @@ function Profile() {
 
   async function getImage() {
     try {
-      const response = await fetch('https://hire-mate-6mvz.vercel.app/image-api/get-images');
+      const response = await fetch('https://hire-mate-mcte.vercel.app/image-api/get-images');
       const result = await response.json();
   
       if (result.data) {
@@ -132,7 +132,7 @@ function Profile() {
       };
       console.log(reciever.username)
   
-      const response = await fetch('https://hire-mate-6mvz.vercel.app/user-api/updateRating', {
+      const response = await fetch('https://hire-mate-mcte.vercel.app/user-api/updateRating', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ function Profile() {
     let confirmationJob = confirm("Is the job done?");
     if (confirmationJob) {
       try {
-        let res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/jobdonelist', {
+        let res = await fetch('https://hire-mate-mcte.vercel.app/user-api/jobdonelist', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json'
@@ -202,7 +202,7 @@ function Profile() {
   useEffect(() => {
     async function getJobDoneList() {
       try {
-        const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/getjobList');
+        const res = await fetch('https://hire-mate-mcte.vercel.app/user-api/getjobList');
         const result = await res.json();
         if (result.message === 'Job List fetched successfully') {
           setJobDoneList(result.list);
@@ -229,7 +229,7 @@ function Profile() {
     };
     
     try {
-      const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/messagePost',{
+      const res = await fetch('https://hire-mate-mcte.vercel.app/user-api/messagePost',{
         method:"POST",
         headers:{'Content-Type' : 'application/json'},
         body:JSON.stringify(messageObject)
@@ -252,7 +252,7 @@ function Profile() {
     async function fetchMessages() {
       try {
         const res = await fetch(
-          `https://hire-mate-6mvz.vercel.app/user-api/getmessage/${curruser.username}/${reciever.username}`
+          `https://hire-mate-mcte.vercel.app/user-api/getmessage/${curruser.username}/${reciever.username}`
         );
         const result = await res.json();
         if (result.message === 'Messages are fetched' || result.message === 'No conversation found between the specified users.') {
@@ -269,7 +269,7 @@ function Profile() {
   async function deleteResponse(hirerUsername, freelancerUsername) {
     try {
       const res = await fetch(
-        `https://hire-mate-6mvz.vercel.app/user-api/deleteResponse/${hirerUsername}/${freelancerUsername}`,
+        `https://hire-mate-mcte.vercel.app/user-api/deleteResponse/${hirerUsername}/${freelancerUsername}`,
         { method: 'DELETE' }
       );
       const result = await res.json();
@@ -291,7 +291,7 @@ function Profile() {
   async function friendAccepted(data, hirer, freelancer) {
     try {
       const res = await fetch(
-        `https://hire-mate-6mvz.vercel.app/user-api/friendAccepted/${freelancer}/${hirer}/${data}`,
+        `https://hire-mate-mcte.vercel.app/user-api/friendAccepted/${freelancer}/${hirer}/${data}`,
         { method: 'DELETE' }
       );
       const result = await res.json();
@@ -340,7 +340,7 @@ function Profile() {
     setCurruser(updatedUser);
     localStorage.setItem('currentUser', JSON.stringify(updatedUser));
     try {
-      const res = await fetch('https://hire-mate-6mvz.vercel.app/user-api/edit', {
+      const res = await fetch('https://hire-mate-mcte.vercel.app/user-api/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

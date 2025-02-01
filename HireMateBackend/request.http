@@ -1,4 +1,4 @@
-post https://hire-mate-6mvz.vercel.app/user-api/user-1
+post https://hire-mate-mcte.vercel.app/user-api/user-1
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ###
 
-post https://hire-mate-6mvz.vercel.app/user-api/user-2
+post https://hire-mate-mcte.vercel.app/user-api/user-2
 Content-Type: application/json
 
 {
@@ -22,10 +22,10 @@ Content-Type: application/json
 }
 
 ###
-get https://hire-mate-6mvz.vercel.app/user-api/users
+get https://hire-mate-mcte.vercel.app/user-api/users
 
 ###
-post  https://hire-mate-6mvz.vercel.app/user-api/login-1
+post  https://hire-mate-mcte.vercel.app/user-api/login-1
 Content-Type: application/json
 
 {
@@ -34,7 +34,7 @@ Content-Type: application/json
 }
 
 ###
-post  https://hire-mate-6mvz.vercel.app/user-api/login-2
+post  https://hire-mate-mcte.vercel.app/user-api/login-2
 Content-Type: application/json
 
 {
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ###
-post https://hire-mate-6mvz.vercel.app/user-api/edit
+post https://hire-mate-mcte.vercel.app/user-api/edit
 Content-Type: application/json
 
 {
@@ -52,14 +52,14 @@ Content-Type: application/json
 }
 
 ###
-delete https://hire-mate-6mvz.vercel.app/user-api/friendAccepted/sadwika123/thrinath123
+delete https://hire-mate-mcte.vercel.app/user-api/friendAccepted/sadwika123/thrinath123
 
 
 ###
-delete https://hire-mate-6mvz.vercel.app/user-api/friendRequested/sadwika123/thrinath123
+delete https://hire-mate-mcte.vercel.app/user-api/friendRequested/sadwika123/thrinath123
 
 ###
-post https://hire-mate-6mvz.vercel.app/user-api/messagePost
+post https://hire-mate-mcte.vercel.app/user-api/messagePost
 Content-Type: application/json
 
 {
@@ -74,10 +74,10 @@ Content-Type: application/json
 }
 
 ###
-get https://hire-mate-6mvz.vercel.app/user-api/getmessage/ramana123/surya123
+get https://hire-mate-mcte.vercel.app/user-api/getmessage/ramana123/surya123
 
 ###
-post https://hire-mate-6mvz.vercel.app/user-api/jobdonelist
+post https://hire-mate-mcte.vercel.app/user-api/jobdonelist
 Content-Type: application/json
 
 {
@@ -85,13 +85,13 @@ Content-Type: application/json
 }
 
 ###
-get https://hire-mate-6mvz.vercel.app/user-api/getjobList
+get https://hire-mate-mcte.vercel.app/user-api/getjobList
 
 ###
-post https://hire-mate-6mvz.vercel.app/user-api/createWalletAndRating
+post https://hire-mate-mcte.vercel.app/user-api/createWalletAndRating
 
 ###
-get https://hire-mate-6mvz.vercel.app/user-api/getAllRatings
+get https://hire-mate-mcte.vercel.app/user-api/getAllRatings
 
 ###
-put https://hire-mate-6mvz.vercel.app/user-api/addFieldsToUsers
+put https://hire-mate-mcte.vercel.app/user-api/addFieldsToUsers
